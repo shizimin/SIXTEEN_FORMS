@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<!-- PAGE-START -->
+<title>Plates 筋トレ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one phone-width column; sticky header, scrolling cards, fixed bottom tab bar. Ranks and grades wear the colours of competition weight plates (5kg white → 25kg red). */
+:root{
+  --bg:#E8ECEC;        /* chalk dust on grey */
+  --surface:#FFFFFF;
+  --sunk:#DCE2E3;
+  --ink:#15191C;
+  --muted:#59646B;
+  --line:#CBD3D6;
+  --accent:#2152D0;    /* 20kg plate blue */
+  --accent-ink:#FFFFFF;
+  --good:#1F8A4C;
+  --warn:#B7791F;
+  --bad:#C0343C;
+  --p5:#F4F6F5;  --p5-ink:#15191C;   /* white 5kg */
+  --p10:#2E9B57; --p10-ink:#FFFFFF;  /* green 10kg */
+  --p15:#E2AE12; --p15-ink:#15191C;  /* yellow 15kg */
+  --p20:#2152D0; --p20-ink:#FFFFFF;  /* blue 20kg */
+  --p25:#CC2F38; --p25-ink:#FFFFFF;  /* red 25kg */
+  --shadow:0 1px 0 rgba(21,25,28,.06),0 6px 18px -10px rgba(21,25,28,.25);
+  --f-display:"Big Shoulders Display","Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101315;--surface:#181D20;--sunk:#0B0E10;--ink:#E6EBEC;--muted:#8E9AA1;--line:#2A3237;
+  --accent:#6E8DFF;--accent-ink:#0B0E10;--good:#4CC37D;--warn:#E3A841;--bad:#F06A70;
+  --p5:#D9DEDC;--p5-ink:#101315;--p10:#36A964;--p10-ink:#0B0E10;--p15:#E9B92B;--p15-ink:#101315;
+  --p20:#4D73F0;--p20-ink:#FFFFFF;--p25:#E2474F;--p25-ink:#FFFFFF;
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 8px 22px -12px rgba(0,0,0,.8);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101315;--surface:#181D20;--sunk:#0B0E10;--ink:#E6EBEC;--muted:#8E9AA1;--line:#2A3237;
+  --accent:#6E8DFF;--accent-ink:#0B0E10;--good:#4CC37D;--warn:#E3A841;--bad:#F06A70;
+  --p5:#D9DEDC;--p5-ink:#101315;--p10:#36A964;--p10-ink:#0B0E10;--p15:#E9B92B;--p15-ink:#101315;
+  --p20:#4D73F0;--p20-ink:#FFFFFF;--p25:#E2474F;--p25-ink:#FFFFFF;
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 8px 22px -12px rgba(0,0,0,.8);color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-body);padding-inline:16px;
+  padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{max-width:560px;margin:0 auto}
+h1,h2,h3{margin:0;text-wrap:balance}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:12px;
+  padding-block:12px 10px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.brand{font:800 26px/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase}
+.brand small{display:block;font:500 11px/1.3 var(--f-body);letter-spacing:.08em;color:var(--muted);text-transform:none}
+.top .sp{flex:1}
+.mini-plate{display:flex;align-items:center;gap:8px;background:none;border:0;padding:0}
+.mini-plate b{font:800 18px/1 var(--f-display)}
+.sync{font:500 11px/1 var(--f-data);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 8px}
+
+/* generic */
+.stack{display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);min-width:0}
+.eyebrow{font:600 11px/1.3 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.title{font:800 28px/1.05 var(--f-display);letter-spacing:.01em}
+.h2{font:700 17px/1.35 var(--f-body)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row .sp{flex:1}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-weight:700;min-height:44px}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.big{width:100%;font-size:16px;padding:14px}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--bad);border-color:var(--bad);background:transparent}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;background:var(--surface);white-space:nowrap}
+.chip.acc{border-color:var(--accent);color:var(--accent)}
+.chip.good{border-color:var(--good);color:var(--good)}
+.chip.warn{border-color:var(--warn);color:var(--warn)}
+.note{background:var(--sunk);border-radius:10px;padding:10px 12px;font-size:13px}
+
+/* plates */
+.plate{--c:var(--p5);--ci:var(--p5-ink);position:relative;width:var(--s,56px);aspect-ratio:1;max-width:100%;border-radius:50%;flex:none;
+  background:var(--c);color:var(--ci);display:grid;place-items:center;
+  box-shadow:inset 0 0 0 calc(var(--s,56px)*.07) rgba(0,0,0,.14),inset 0 0 0 calc(var(--s,56px)*.12) var(--c),inset 0 0 0 calc(var(--s,56px)*.13) rgba(0,0,0,.18),0 0 0 1px var(--line)}
+.plate::after{content:"";position:absolute;width:20%;aspect-ratio:1;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px rgba(0,0,0,.25)}
+.plate span{position:relative;z-index:1;font:800 calc(var(--s,56px)*.36)/1 var(--f-display)}
+.plate:has(span:not(:empty))::after{display:none}
+.t5{--c:var(--p5);--ci:var(--p5-ink)}.t10{--c:var(--p10);--ci:var(--p10-ink)}.t15{--c:var(--p15);--ci:var(--p15-ink)}
+.t20{--c:var(--p20);--ci:var(--p20-ink)}.t25{--c:var(--p25);--ci:var(--p25-ink)}
+
+/* week strip */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wd{display:grid;justify-items:center;gap:4px;padding:8px 0;border-radius:10px;font-size:12px;color:var(--muted)}
+.wd b{font:700 15px/1 var(--f-data);color:var(--ink)}
+.wd i{width:10px;height:10px;border-radius:50%;border:2px solid transparent}
+.wd.plan i{border-color:var(--accent)}
+.wd.done i{background:var(--accent);border-color:var(--accent)}
+.wd.today{background:var(--sunk);color:var(--ink);font-weight:700}
+
+/* exercise list */
+.ex-list{display:grid;gap:0}
+.ex{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.ex:first-child{border-top:0}
+.ex .idx{font:700 13px/1 var(--f-data);color:var(--muted);width:20px}
+.ex .nm{font-weight:700;min-width:0}
+.ex .sub{font-size:12px;color:var(--muted)}
+.ex .rx{font:500 13px/1.3 var(--f-data);text-align:right;white-space:nowrap}
+.focus-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:middle}
+.ex select{max-width:100%;font-size:12px;padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:var(--surface);margin-top:4px}
+
+/* workout */
+.wo-ex{padding:14px 16px}
+.wo-head{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.wo-head .h2{flex:1;min-width:0}
+.sets{display:grid;gap:6px;margin-top:10px}
+.set{display:grid;grid-template-columns:28px 1fr 1fr 48px;gap:8px;align-items:center}
+.set.nokg{grid-template-columns:28px 1fr 48px}
+.set .n{font:700 13px/1 var(--f-data);color:var(--muted);text-align:center}
+.fld{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--bg);min-width:0}
+.fld input{width:100%;min-width:0;border:0;background:transparent;padding:10px 4px 10px 10px;font:500 17px/1 var(--f-data);text-align:right}
+.fld input:focus{outline:none}
+.fld:focus-within{border-color:var(--accent)}
+.fld em{font-style:normal;font-size:11px;color:var(--muted);padding-right:10px;white-space:nowrap}
+.tick{height:44px;border-radius:10px;border:2px solid var(--line);background:transparent;font-weight:800;font-size:18px;color:var(--muted)}
+.tick.on{background:var(--good);border-color:var(--good);color:#fff}
+.set.done .fld{opacity:.75}
+.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.hint b{color:var(--ink)}
+.progress{height:8px;border-radius:999px;background:var(--sunk);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .3s}
+
+/* rest timer */
+.rest{position:fixed;left:0;right:0;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:6;padding-inline:16px}
+.rest .in{max-width:560px;margin:0 auto 8px;background:var(--ink);color:var(--bg);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.rest .t{font:800 30px/1 var(--f-display);min-width:76px}
+.rest .bar{flex:1;height:6px;background:rgba(127,127,127,.35);border-radius:9px;overflow:hidden}
+.rest .bar i{display:block;height:100%;background:var(--bg)}
+.rest button{background:transparent;color:var(--bg);border:1px solid currentColor;border-radius:8px;padding:6px 10px;font-weight:700;font-size:13px}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.nav button{background:none;border:0;padding:10px 0 12px;display:grid;justify-items:center;gap:3px;font-size:12px;font-weight:700;color:var(--muted);min-height:60px}
+.nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav button[aria-current="page"]{color:var(--accent)}
+
+/* setup form */
+fieldset{border:0;margin:0;padding:0;display:grid;gap:8px;min-width:0}
+legend{font-weight:700;font-size:13px;padding:0;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:14px;font-weight:500;min-height:38px}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.opt.sq{border-radius:10px;min-width:44px}
+details>summary{cursor:pointer;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+.sum-row{display:flex;align-items:center;gap:10px}
+.sum-row::after{content:"＋";margin-left:auto;font-weight:700;color:var(--muted)}
+details[open] .sum-row::after{content:"－"}
+
+/* report */
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.kpi{background:var(--sunk);border-radius:12px;padding:12px}
+.kpi b{display:block;font:800 30px/1.05 var(--f-display)}
+.kpi span{font-size:12px;color:var(--muted)}
+.bal{display:grid;gap:8px}
+.bal-row{display:grid;grid-template-columns:56px 1fr 52px;gap:10px;align-items:center;font-size:13px}
+.bal-track{position:relative;height:12px;background:var(--sunk);border-radius:999px;overflow:hidden}
+.bal-band{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--good) 22%,transparent)}
+.bal-fill{position:absolute;left:0;top:3px;bottom:3px;border-radius:999px;background:var(--accent)}
+.bal-row .v{font:500 12px/1 var(--f-data);text-align:right}
+.chart{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;align-items:end;height:140px;padding-top:18px;border-bottom:1px solid var(--line);
+  background:repeating-linear-gradient(to top,transparent 0 34px,var(--line) 34px 35px)}
+.chart .c{display:grid;justify-items:center;align-content:end;height:100%;position:relative}
+.chart .c i{width:100%;max-width:28px;background:var(--accent);border-radius:6px 6px 0 0;min-height:2px;opacity:.55}
+.chart .c.now i{opacity:1}
+.chart .c em{position:absolute;top:-16px;font:500 10px/1 var(--f-data);color:var(--muted);font-style:normal;white-space:nowrap}
+.chart-x{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;font:500 10px/1.6 var(--f-data);color:var(--muted);text-align:center}
+.hist{display:grid}
+.hist details{border-top:1px solid var(--line);padding:10px 0}
+.hist details:first-child{border-top:0}
+.hist summary{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.hist .d{font:500 12px/1.3 var(--f-data);color:var(--muted)}
+.hist table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+.hist td{padding:4px 0;border-top:1px dashed var(--line);vertical-align:top}
+.hist td:last-child{text-align:right;font-family:var(--f-data);font-size:12px}
+
+/* rank */
+.rank-hero{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.badge{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:10px;border-radius:12px;background:var(--sunk);min-width:0}
+.badge .plate{--s:38px}
+.badge b{display:block;font-size:13px;line-height:1.3}
+.badge span{font-size:11px;color:var(--muted);line-height:1.35;display:block}
+.badge.locked{opacity:.55}
+.badge.locked .plate{--c:transparent;--ci:var(--muted);box-shadow:inset 0 0 0 2px var(--line)}
+.grades{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center}
+.grades .plate{--s:46px;margin:0 auto}
+.grades div{display:grid;gap:4px;font:500 13px/1 var(--f-data)}
+.howto{width:100%;border-collapse:collapse;font-size:13px}
+.howto td{padding:6px 0;border-top:1px solid var(--line)}
+.howto td:last-child{text-align:right;font-family:var(--f-data);white-space:nowrap;padding-left:10px}
+
+/* result overlay */
+.overlay{position:fixed;inset:0;z-index:20;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px;overflow:auto}
+.result{width:100%;max-width:440px;text-align:center}
+.stamp{--s:132px;margin:4px auto 10px;animation:stamp .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{from{transform:scale(1.8) rotate(-18deg);opacity:0}to{transform:none;opacity:1}}
+.xp-lines{display:grid;gap:4px;text-align:left;font-size:14px;margin:12px 0}
+.xp-lines div{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0}
+.xp-lines div b{font-family:var(--f-data)}
+.confirm{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:12px/1.4 var(--f-data);padding:8px}
+.empty{text-align:center;padding:22px 8px;color:var(--muted)}
+.empty .plate{--s:64px;margin:0 auto 10px;opacity:.6}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:380px){.set{grid-template-columns:22px 1fr 1fr 44px;gap:6px}.title{font-size:24px}}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">Plates<small>筋トレプラン &amp; ランク</small></div>
+    <div class="sp"></div>
+    <span class="sync" id="sync">この端末に保存</span>
+    <button class="mini-plate" data-act="tab" data-tab="rank" aria-label="ランクを見る" id="miniRank"></button>
+  </header>
+  <main id="main" class="stack"></main>
+</div>
+<div class="rest" id="rest" hidden><div class="in">
+  <div><div class="small" style="opacity:.7">休憩</div><div class="t num" id="restT">0:00</div></div>
+  <div class="bar"><i id="restBar"></i></div>
+  <button data-act="rest-add">+15秒</button><button data-act="rest-skip">終了</button>
+</div></div>
+<nav class="nav" aria-label="メニュー"><div class="in">
+  <button data-act="tab" data-tab="today"><svg viewBox="0 0 24 24"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>今日</button>
+  <button data-act="tab" data-tab="plan"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>プラン</button>
+  <button data-act="tab" data-tab="log"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>記録</button>
+  <button data-act="tab" data-tab="rank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>ランク</button>
+</div></nav>
+<div id="overlay" class="overlay" hidden></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= exercise catalogue ================= */
+// [id, name, muscle, sub, equipment(bw|db|gym), kind(c=compound|i=isolation), difficulty 1-3, unit(kg|bw|sec), kg step]
+const EX_RAW = [
+  ['bench','ベンチプレス','chest','','gym','c',2,'kg',2.5],
+  ['chestpress','チェストプレス（マシン）','chest','','gym','c',1,'kg',5],
+  ['inclinedb','インクライン・ダンベルプレス','chest','','db','c',2,'kg',2],
+  ['dbpress','ダンベルプレス','chest','','db','c',1,'kg',2],
+  ['dips','ディップス','chest','','gym','c',3,'bw',0],
+  ['pushup','腕立て伏せ','chest','','bw','c',1,'bw',0],
+  ['declinepush','足上げ腕立て伏せ','chest','','bw','c',2,'bw',0],
+  ['cablefly','ケーブルフライ','chest','','gym','i',1,'kg',2.5],
+  ['dbfly','ダンベルフライ','chest','','db','i',2,'kg',1],
+  ['widepush','ワイド腕立て伏せ','chest','','bw','i',1,'bw',0],
+
+  ['deadlift','デッドリフト','back','','gym','c',3,'kg',5],
+  ['pulldown','ラットプルダウン','back','','gym','c',1,'kg',5],
+  ['bbrow','ベントオーバーロウ','back','','gym','c',2,'kg',2.5],
+  ['cablerow','シーテッドロウ','back','','gym','c',1,'kg',5],
+  ['pullup','懸垂（チンニング）','back','','gym','c',3,'bw',0],
+  ['dbrow','ワンハンド・ダンベルロウ','back','','db','c',1,'kg',2],
+  ['tablerow','テーブルロウ（斜め懸垂）','back','','bw','c',2,'bw',0],
+  ['straightarm','ストレートアーム・プルダウン','back','','gym','i',2,'kg',2.5],
+  ['pullover','ダンベルプルオーバー','back','','db','i',2,'kg',2],
+  ['superman','スーパーマン','back','','bw','i',1,'bw',0],
+  ['doorrow','ドア枠ロウ（片手）','back','','bw','c',1,'bw',0],
+  ['snowangel','リバース・スノーエンジェル','back','','bw','i',1,'bw',0],
+
+  ['ohp','オーバーヘッドプレス','shoulders','','gym','c',2,'kg',2.5],
+  ['dbshoulder','ダンベルショルダープレス','shoulders','','db','c',1,'kg',2],
+  ['pikepush','パイクプッシュアップ','shoulders','','bw','c',2,'bw',0],
+  ['cablelateral','ケーブルサイドレイズ','shoulders','','gym','i',2,'kg',2.5],
+  ['lateral','サイドレイズ','shoulders','','db','i',1,'kg',1],
+  ['facepull','フェイスプル','shoulders','rear','gym','i',1,'kg',2.5],
+  ['reardelt','リアレイズ','shoulders','rear','db','i',1,'kg',1],
+  ['ytw','YTWレイズ（うつ伏せ）','shoulders','rear','bw','i',1,'bw',0],
+
+  ['bbcurl','バーベルカール','arms','bi','gym','i',1,'kg',2.5],
+  ['cablecurl','ケーブルカール','arms','bi','gym','i',1,'kg',2.5],
+  ['dbcurl','ダンベルカール','arms','bi','db','i',1,'kg',1],
+  ['hammer','ハンマーカール','arms','bi','db','i',1,'kg',1],
+  ['towelcurl','タオルカール（等尺性）','arms','bi','bw','i',1,'sec',0],
+  ['pushdown','トライセプス・プッシュダウン','arms','tri','gym','i',1,'kg',2.5],
+  ['skull','スカルクラッシャー','arms','tri','gym','i',2,'kg',2.5],
+  ['ohext','オーバーヘッド・エクステンション','arms','tri','db','i',1,'kg',1],
+  ['benchdip','ベンチディップス','arms','tri','bw','i',1,'bw',0],
+  ['diamond','ダイヤモンド腕立て伏せ','arms','tri','bw','i',2,'bw',0],
+
+  ['squat','バーベルスクワット','legs','quad','gym','c',2,'kg',5],
+  ['legpress','レッグプレス','legs','quad','gym','c',1,'kg',10],
+  ['goblet','ゴブレットスクワット','legs','quad','db','c',1,'kg',2],
+  ['bulgarian','ブルガリアンスクワット','legs','quad','db','c',2,'kg',2],
+  ['bwsquat','自重スクワット','legs','quad','bw','c',1,'bw',0],
+  ['lunge','ランジ','legs','quad','bw','c',1,'bw',0],
+  ['legext','レッグエクステンション','legs','quad','gym','i',1,'kg',5],
+  ['stepup','ダンベル・ステップアップ','legs','quad','db','i',1,'kg',2],
+  ['splitsq','スプリットスクワット','legs','quad','bw','i',1,'bw',0],
+  ['rdl','ルーマニアン・デッドリフト','legs','ham','gym','c',2,'kg',5],
+  ['dbrdl','ダンベルRDL','legs','ham','db','c',1,'kg',2],
+  ['slrdl','片脚RDL（自重）','legs','ham','bw','c',2,'bw',0],
+  ['legcurl','レッグカール','legs','ham','gym','i',1,'kg',5],
+  ['slidecurl','スライダー・レッグカール','legs','ham','bw','i',2,'bw',0],
+  ['nordic','ノルディックハムカール','legs','ham','bw','i',3,'bw',0],
+  ['machinecalf','マシン・カーフレイズ','legs','calf','gym','i',1,'kg',5],
+  ['dbcalf','ダンベル・カーフレイズ','legs','calf','db','i',1,'kg',2],
+  ['calfraise','カーフレイズ','legs','calf','bw','i',1,'bw',0],
+
+  ['hipthrust','ヒップスラスト','glutes','','gym','c',2,'kg',5],
+  ['dbhipthrust','ダンベル・ヒップスラスト','glutes','','db','c',1,'kg',2],
+  ['bridge','ヒップリフト','glutes','','bw','c',1,'bw',0],
+  ['kickback','ケーブル・キックバック','glutes','','gym','i',1,'kg',2.5],
+  ['abduction','ヒップアブダクション（マシン）','glutes','','gym','i',1,'kg',5],
+  ['slbridge','片脚ヒップリフト','glutes','','bw','i',2,'bw',0],
+  ['clam','クラムシェル','glutes','','bw','i',1,'bw',0],
+
+  ['cablecrunch','ケーブルクランチ','core','','gym','i',2,'kg',2.5],
+  ['legraise','ハンギング・レッグレイズ','core','','gym','i',3,'bw',0],
+  ['abroller','アブローラー','core','','db','i',2,'bw',0],
+  ['plank','プランク','core','','bw','i',1,'sec',0],
+  ['sideplank','サイドプランク','core','','bw','i',1,'sec',0],
+  ['crunch','クランチ','core','','bw','i',1,'bw',0],
+  ['deadbug','デッドバグ','core','','bw','i',1,'bw',0],
+];
+const EX = EX_RAW.map(([id,name,m,sub,eq,k,d,unit,inc]) => ({id,name,m,sub,eq,k,d,unit,inc}));
+const EXM = Object.fromEntries(EX.map(e => [e.id, e]));
+
+const MUSCLES = {chest:'胸',back:'背中',shoulders:'肩',arms:'腕',legs:'脚',glutes:'お尻',core:'体幹'};
+const GOALS = {hyp:'筋肉を大きく',str:'筋力アップ',cut:'引き締め・減量',fit:'健康・体力づくり'};
+const LEVELS = {beg:'初心者',mid:'中級者',adv:'上級者'};
+const EQS = {gym:'ジム（マシン・バーベル）',db:'自宅・ダンベルあり',bw:'自重のみ'};
+const EQ_RANK = {bw:0,db:1,gym:2};
+const WD = ['月','火','水','木','金','土','日'];
+const MINUTES = [30,45,60,75,90];
+const DEFAULT_WD = {2:[0,3],3:[0,2,4],4:[0,1,3,4],5:[0,1,2,4,5],6:[0,1,2,3,4,5]};
+
+/* ================= plan generator ================= */
+const SPLITS = {
+  2:['fullA','fullB'], 3:['fullA','fullB','fullC'], 4:['upper','lower','upper','lower'],
+  5:['upper','lower','push','pull','legs'], 6:['push','pull','legs','push','pull','legs'],
+};
+const DAY_TYPES = {
+  fullA:{name:'全身 A', slots:['legs:quad.c','chest.c','back.c','shoulders.c','legs:ham.c','glutes.i','arms:bi.i','arms:tri.i','core.i']},
+  fullB:{name:'全身 B', slots:['legs:ham.c','back.c','chest.c','legs:quad.c','shoulders.i','glutes.c','core.i','arms:tri.i','arms:bi.i']},
+  fullC:{name:'全身 C', slots:['legs:quad.c','back.c','chest.c','shoulders.c','glutes.c','legs:ham.i','arms:tri.i','arms:bi.i','core.i']},
+  upper:{name:'上半身', slots:['chest.c','back.c','shoulders.c','back.c','chest.i','arms:bi.i','arms:tri.i','shoulders.i']},
+  lower:{name:'下半身', slots:['legs:quad.c','legs:ham.c','glutes.c','legs:quad.i','legs:ham.i','legs:calf.i','core.i','glutes.i']},
+  push:{name:'プッシュ（胸・肩・三頭）', slots:['chest.c','shoulders.c','chest.c','shoulders.i','arms:tri.i','chest.i','arms:tri.i','core.i']},
+  pull:{name:'プル（背中・二頭）', slots:['back.c','back.c','back.i','shoulders:rear.i','arms:bi.i','arms:bi.i','core.i','back.c']},
+  legs:{name:'レッグ（脚・お尻）', slots:['legs:quad.c','legs:ham.c','glutes.c','legs:quad.i','legs:ham.i','legs:calf.i','core.i','glutes.i']},
+};
+const REPS = { // [compound lo,hi,rest] [isolation lo,hi,rest]
+  hyp:{c:[6,10,120], i:[10,15,60], sec:[30,45,45]},
+  str:{c:[3,6,180],  i:[8,10,90],  sec:[30,45,60]},
+  cut:{c:[10,12,60], i:[12,15,45], sec:[30,60,30]},
+  fit:{c:[10,12,90], i:[12,15,60], sec:[30,45,45]},
+};
+const SLOT_COUNT = {30:4,45:5,60:6,75:7,90:8};
+
+function parseSlot(s){ const [mm,k] = s.split('.'); const [m,sub] = mm.split(':'); return {m, sub:sub||'', k}; }
+function candidates(slot, eq, level){
+  const maxD = level==='beg' ? 2 : 3;
+  let list = EX.filter(e => e.m===slot.m && (!slot.sub || e.sub===slot.sub) && EQ_RANK[e.eq] <= EQ_RANK[eq] && e.d <= maxD);
+  const byKind = list.filter(e => e.k===slot.k);
+  if (byKind.length) list = byKind.concat(list.filter(e => e.k!==slot.k));
+  return list.sort((a,b) => (a.k===slot.k?0:1)-(b.k===slot.k?0:1) || EQ_RANK[b.eq]-EQ_RANK[a.eq] || (level==='beg' ? a.d-b.d : b.d-a.d));
+}
+function rxFor(ex, goal, level, focus){
+  const r = REPS[goal][ex.unit==='sec' ? 'sec' : ex.k];
+  let sets = level==='adv' ? 4 : 3;
+  if (goal==='str' && ex.k==='c') sets++;
+  if (focus) sets++;
+  if (level==='beg') sets = Math.min(sets, 4);
+  return {sets, repLo:r[0], repHi:r[1], rest:r[2]};
+}
+function generatePlan(p){
+  const wds = [...p.weekdays].sort((a,b)=>a-b);
+  const split = SPLITS[wds.length];
+  const seen = {};
+  const n = Math.min(SLOT_COUNT[p.minutes] || 6, p.level==='beg' ? 6 : 8);
+  const days = split.map((type, di) => {
+    const variant = type==='fullC' ? 2 : (seen[type] = (seen[type] ?? -1) + 1);
+    const t = DAY_TYPES[type];
+    let slots = t.slots.slice(0, n).map(parseSlot);
+    // focus muscles: add an extra slot and move them forward
+    for (const f of p.focus) {
+      if (!t.slots.some(s => parseSlot(s).m===f) && !type.startsWith('full')) continue;
+      const extra = t.slots.map(parseSlot).find(s => s.m===f && s.k==='i') || {m:f, sub:'', k:'i'};
+      if (slots.filter(s=>s.m===f).length < 3) {
+        if (slots.length >= n) {
+          let idx = -1;
+          for (let i = slots.length-1; i >= 2; i--) if (!p.focus.includes(slots[i].m)) { idx = i; break; }
+          if (idx >= 0) slots.splice(idx, 1);
+        }
+        slots.push({...extra});
+      }
+    }
+    const used = new Set(); const items = [];
+    slots.forEach((slot, si) => {
+      const c = candidates(slot, p.eq, p.level).filter(e => !used.has(e.id));
+      if (!c.length) return;
+      const pick = c[(variant + (si>3 ? 1 : 0)) % Math.min(c.length, 3)] || c[0];
+      used.add(pick.id);
+      const focus = p.focus.includes(pick.m);
+      items.push({ex:pick.id, focus, ...rxFor(pick, p.goal, p.level, focus)});
+    });
+    // compounds first
+    items.sort((a,b) => (EXM[a.ex].k==='c'?0:1) - (EXM[b.ex].k==='c'?0:1));
+    const twice = split.filter(x => x===type).length > 1;
+    return {key:'d'+di, name: twice ? `${t.name} ${'AB'[variant] || variant+1}` : t.name, wd:wds[di], items, extra: extraNote(p)};
+  });
+  return {createdAt: ymd(weekStart(new Date())), source:'rule', note:'', days};
+}
+function extraNote(p){
+  if (p.goal==='cut') return '最後に有酸素運動 15〜20分（早歩き・バイクなど）';
+  if (p.goal==='fit') return '始める前に軽いウォームアップ 5分';
+  return '';
+}
+function candidatesForSwap(exId, eq){
+  const ex = EXM[exId];
+  return EX.filter(e => e.m===ex.m && (ex.m!=='arms' && ex.m!=='legs' || e.sub===ex.sub) && EQ_RANK[e.eq] <= EQ_RANK[eq]);
+}
+
+/* week phases: 4-week cycle */
+const PHASES = [
+  {name:'基礎', tip:'フォームを固め、目標回数の範囲で丁寧に。'},
+  {name:'積み上げ', tip:'前回より1回でも多く。全セット上限回数に届いたら重量を上げる。'},
+  {name:'挑戦', tip:'主要種目（複合種目）を1セット追加。'},
+  {name:'ディロード', tip:'疲労を抜く週。セット数を1減らし、重量は90%に。'},
+];
+function planWeek(plan, d=new Date()){
+  const start = parseYmd(plan.createdAt);
+  const w = Math.floor((weekStart(d) - start) / (7*864e5));
+  return Math.max(0, w);
+}
+function phaseOf(week){ return week % 4; }
+function effective(item, phase){
+  const ex = EXM[item.ex];
+  let sets = item.sets;
+  if (phase===2 && ex.k==='c') sets += 1;
+  if (phase===3) sets = Math.max(2, sets-1);
+  return {...item, sets};
+}
+
+/* ================= utils ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+function ymd(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function parseYmd(s){ const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+function wdOf(d){ return (d.getDay()+6) % 7; }
+function weekStart(d){ const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate()-wdOf(x)); return x; }
+function weekKey(s){ return ymd(weekStart(typeof s==='string' ? parseYmd(s) : s)); }
+function roundTo(v, step){ step = step || 2.5; return Math.round(v/step)*step; }
+function fmtKg(v){ return (Math.round(v*10)/10).toLocaleString('ja-JP'); }
+function fmtTon(v){ return v >= 1000 ? (v/1000).toFixed(v>=100000?0:1)+'t' : Math.round(v)+'kg'; }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function unitLabel(ex){ return ex.unit==='sec' ? '秒' : '回'; }
+function rxText(it){ const ex = EXM[it.ex]; return `${it.sets}×${it.repLo}–${it.repHi}${unitLabel(ex)}`; }
+function restText(s){ return s>=60 ? `${Math.floor(s/60)}分${s%60?pad(s%60)+'秒':''}` : `${s}秒`; }
+function e1rm(ex, st){ return ex.unit==='kg' ? st.w*(1+st.r/30) : st.r; }
+
+/* ================= ranks, grades, badges ================= */
+const TIERS = [
+  {min:1, cls:'t5',  name:'ホワイトプレート', kg:5},
+  {min:5, cls:'t10', name:'グリーンプレート', kg:10},
+  {min:10,cls:'t15', name:'イエロープレート', kg:15},
+  {min:15,cls:'t20', name:'ブループレート',   kg:20},
+  {min:20,cls:'t25', name:'レッドプレート',   kg:25},
+];
+const GRADE_CLS = {S:'t25',A:'t20',B:'t15',C:'t10',D:'t5'};
+const GRADE_BONUS = {S:100,A:70,B:50,C:30,D:10};
+const xpForLevel = L => 50*L*(L-1);
+function levelOf(xp){ let L = 1; while (xpForLevel(L+1) <= xp) L++; return L; }
+function tierOf(L){ let t = TIERS[0]; for (const x of TIERS) if (L >= x.min) t = x; return t; }
+function gradeOf(score){ return score>=95?'S':score>=85?'A':score>=70?'B':score>=50?'C':'D'; }
+
+const BADGES = [
+  {id:'first', name:'はじめの一歩', how:'初めてのトレーニングを記録', ok:s=>s.sessions>=1, kg:5},
+  {id:'w10', name:'10回達成', how:'トレーニング10回', ok:s=>s.sessions>=10, kg:10},
+  {id:'w50', name:'50回達成', how:'トレーニング50回', ok:s=>s.sessions>=50, kg:20},
+  {id:'w100', name:'100回の重み', how:'トレーニング100回', ok:s=>s.sessions>=100, kg:25},
+  {id:'pr1', name:'自己ベスト', how:'初めて自己ベストを更新', ok:s=>s.prs>=1, kg:5},
+  {id:'pr10', name:'記録更新の常連', how:'自己ベスト更新 合計10回', ok:s=>s.prs>=10, kg:15},
+  {id:'s1', name:'Sランク', how:'評価Sを1回獲得', ok:s=>s.grades.S>=1, kg:15},
+  {id:'s10', name:'S連発', how:'評価Sを10回獲得', ok:s=>s.grades.S>=10, kg:25},
+  {id:'perfect', name:'予定どおりの1週間', how:'1週間の予定日数をすべて実施', ok:s=>s.goalWeeks>=1, kg:10},
+  {id:'streak4', name:'4週連続', how:'週の目標を4週連続で達成', ok:s=>s.bestStreak>=4, kg:15},
+  {id:'streak12', name:'12週連続', how:'週の目標を12週連続で達成', ok:s=>s.bestStreak>=12, kg:25},
+  {id:'ton10', name:'累計10トン', how:'総挙上量 10,000kg', ok:s=>s.volume>=10000, kg:10},
+  {id:'ton100', name:'累計100トン', how:'総挙上量 100,000kg', ok:s=>s.volume>=100000, kg:20},
+  {id:'sets500', name:'500セット', how:'完了セット 合計500', ok:s=>s.sets>=500, kg:20},
+  {id:'early', name:'朝トレ', how:'朝7時前にトレーニングを完了', ok:s=>s.early>=1, kg:5},
+  {id:'deload', name:'休むのも練習', how:'ディロード週にトレーニングを完了', ok:s=>s.deloads>=1, kg:10},
+];
+
+function computeStats(){
+  const logs = S.logs;
+  const goal = S.plan ? S.plan.days.length : 3;
+  const st = {sessions:logs.length, xp:0, prs:0, volume:0, sets:0, grades:{S:0,A:0,B:0,C:0,D:0}, early:0, deloads:0,
+    goalWeeks:0, streak:0, bestStreak:0, weekBonus:0};
+  const perWeek = {};
+  for (const l of logs) {
+    st.xp += l.xp; st.prs += l.prs.length; st.volume += l.volume; st.sets += l.done;
+    st.grades[l.grade]++;
+    if (l.hour < 7) st.early++;
+    if (l.phase===3) st.deloads++;
+    const wk = weekKey(l.date); perWeek[wk] = (perWeek[wk]||0) + 1;
+  }
+  const keys = Object.keys(perWeek).sort();
+  for (const k of keys) if (perWeek[k] >= goal) st.goalWeeks++;
+  st.weekBonus = st.goalWeeks * 200;
+  st.xp += st.weekBonus;
+  // streaks over consecutive calendar weeks
+  if (keys.length) {
+    let run = 0, d = parseYmd(keys[0]);
+    const thisWk = weekKey(new Date());
+    while (ymd(d) <= thisWk) {
+      const k = ymd(d), met = (perWeek[k]||0) >= goal;
+      if (met) { run++; st.bestStreak = Math.max(st.bestStreak, run); }
+      else if (k !== thisWk) run = 0;
+      d.setDate(d.getDate()+7);
+    }
+    st.streak = run;
+  }
+  st.level = levelOf(st.xp);
+  st.tier = tierOf(st.level);
+  st.perWeek = perWeek;
+  return st;
+}
+
+/* ================= state & storage ================= */
+const LS_KEY = 'plates.v1', LS_DRAFT = 'plates.draft';
+const DEFAULT_PROFILE = {goal:'hyp', level:'beg', weekdays:[0,2,4], minutes:60, focus:[], eq:'gym'};
+const S = {profile:null, plan:null, logs:[], updatedAt:0, firstRun:true, draft:null, tab:'today', form:null, confirm:null, ai:null, setupOpen:false};
+
+function lsGet(k){ try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
+function lsSet(k, v){ try { v==null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+function loadLocal(){
+  const d = lsGet(LS_KEY);
+  if (d && d.plan) { S.profile = d.profile; S.plan = d.plan; S.logs = d.logs||[]; S.updatedAt = d.updatedAt||0; S.firstRun = false; }
+  else { S.profile = {...DEFAULT_PROFILE}; S.plan = generatePlan(S.profile); }
+  S.draft = lsGet(LS_DRAFT);
+  S.form = JSON.parse(JSON.stringify(S.profile));
+  S.setupOpen = S.firstRun;
+}
+function saveLocal(){ if (!S.firstRun) lsSet(LS_KEY, {profile:S.profile, plan:S.plan, logs:S.logs, updatedAt:S.updatedAt}); }
+function commitProfile(){ S.firstRun = false; S.updatedAt = Date.now(); saveLocal(); Cloud.saveProfile(); }
+function commitLog(ym){ S.firstRun = false; saveLocal(); Cloud.saveMonth(ym); }
+
+/* optional claude.ai sync: each person's own private subtree */
+const Cloud = {
+  db:null, uid:null, chains:{}, state:'local',
+  async init(){
+    if (!window.claude || !window.claude.use) return;
+    try {
+      const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+      if (!db || !user) return;
+      const id = await user.id();
+      if (!id) return;
+      this.db = db; this.uid = id;
+      await this.pull();
+    } catch (e) { this.state = 'error'; showSync(); }
+  },
+  col(){ return this.db.collection('data/users/' + this.uid); },
+  async pull(){
+    const snap = await this.col().get();
+    let prof = null; const remote = [];
+    for (const d of snap.docs) { const v = d.data(); if (d.id==='profile') prof = v; else if (d.id.startsWith('log-')) remote.push(...(v.sessions||[])); }
+    const remoteIds = new Set(remote.map(l => l.id));
+    const localOnly = S.logs.filter(l => !remoteIds.has(l.id));
+    S.logs = remote.concat(localOnly).sort((a,b) => a.ts - b.ts);
+    if (prof && prof.plan && (S.firstRun || (prof.updatedAt||0) >= S.updatedAt)) {
+      S.profile = prof.profile; S.plan = prof.plan; S.updatedAt = prof.updatedAt||0; S.firstRun = false;
+      S.form = JSON.parse(JSON.stringify(S.profile)); S.setupOpen = false;
+    } else if (!S.firstRun) this.saveProfile();
+    for (const ym of new Set(localOnly.map(l => l.date.slice(0,7)))) this.saveMonth(ym);
+    if (S.logs.length && S.firstRun) S.firstRun = false;
+    this.state = 'cloud'; saveLocal(); render();
+  },
+  write(id, data){
+    if (!this.db) return;
+    this.state = 'saving'; showSync();
+    const prev = this.chains[id] || Promise.resolve();
+    this.chains[id] = prev.then(() => this.col().doc(id).set(data))
+      .then(() => { this.state = 'cloud'; showSync(); })
+      .catch(e => { this.state = (e && e.code==='quota_exceeded') ? 'full' : 'error'; showSync(); });
+  },
+  remove(id){ if (this.db) this.col().doc(id).delete().catch(()=>{}); },
+  saveProfile(){ this.write('profile', {profile:S.profile, plan:S.plan, updatedAt:S.updatedAt}); },
+  saveMonth(ym){
+    const sessions = S.logs.filter(l => l.date.slice(0,7)===ym);
+    if (sessions.length) this.write('log-'+ym, {sessions}); else this.remove('log-'+ym);
+  },
+};
+function showSync(){
+  const el = $('#sync');
+  el.textContent = {local:'この端末に保存', saving:'保存中…', cloud:'クラウドに保存済み', error:'クラウド保存に失敗（端末には保存済み）', full:'保存容量がいっぱいです'}[Cloud.state];
+}
+
+/* optional: ask Claude to write the plan */
+let SAMPLE = null;
+async function initSample(){
+  if (!window.claude || !window.claude.use) return;
+  try { SAMPLE = await window.claude.use('sample'); } catch { SAMPLE = null; }
+  if (SAMPLE && S.tab==='plan') render();
+}
+
+/* ================= suggestions ================= */
+function lastPerf(exId, beforeTs=Infinity){
+  for (let i = S.logs.length-1; i >= 0; i--) {
+    const l = S.logs[i]; if (l.ts >= beforeTs) continue;
+    const it = l.items.find(x => x.ex===exId);
+    if (it && it.sets.length) return {date:l.date, sets:it.sets};
+  }
+  return null;
+}
+function fmtSets(ex, sets){
+  if (ex.unit==='kg') {
+    const top = Math.max(...sets.map(s=>s.w));
+    return `${fmtKg(top)}kg × ${sets.filter(s=>s.w===top).map(s=>s.r).join('/')}`;
+  }
+  return sets.map(s=>s.r).join('/') + unitLabel(ex);
+}
+function suggest(item, phase){
+  const ex = EXM[item.ex], lp = lastPerf(item.ex);
+  if (!lp) return {w:'', r:item.repHi, last:'', why: ex.unit==='kg' ? '初回：目標回数の上限がギリギリできる重さで' : '初回：無理のない回数で'};
+  const last = fmtSets(ex, lp.sets);
+  if (ex.unit!=='kg') {
+    const best = Math.max(...lp.sets.map(s=>s.r));
+    const r = phase===3 ? item.repLo : Math.min(best+1, Math.max(item.repHi, best+1));
+    return {w:'', r, last, why: phase===3 ? 'ディロード週：控えめに' : '前回より1回（1秒）多く'};
+  }
+  const top = Math.max(...lp.sets.map(s=>s.w));
+  const atTop = lp.sets.filter(s => s.w===top);
+  let w = top, why = '前回と同じ重量で回数を伸ばす';
+  if (atTop.length >= Math.min(2, item.sets) && atTop.every(s => s.r >= item.repHi)) { w = top + ex.inc; why = `前回すべて${item.repHi}回達成 → +${ex.inc}kg`; }
+  else if (atTop.some(s => s.r < item.repLo)) why = '前回は目標に届かず：同じ重量でもう一度';
+  if (phase===3) { w = Math.max(ex.inc, roundTo(w*0.9, ex.inc)); why = 'ディロード週：重量を90%に'; }
+  return {w, r:item.repHi, last, why};
+}
+
+/* ================= workout ================= */
+function startWorkout(dayKey){
+  const day = S.plan.days.find(d => d.key===dayKey); if (!day) return;
+  const week = planWeek(S.plan), phase = phaseOf(week);
+  const items = day.items.map(raw => {
+    const it = effective(raw, phase), sg = suggest(it, phase);
+    return {ex:it.ex, repLo:it.repLo, repHi:it.repHi, rest:it.rest, why:sg.why, last:sg.last,
+      sets: Array.from({length:it.sets}, () => ({w:sg.w, r:'', done:false, tr:sg.r}))};
+  });
+  S.draft = {dayKey, dayName:day.name, extra:day.extra||'', week, phase, startedAt:Date.now(), items};
+  lsSet(LS_DRAFT, S.draft);
+  if (S.firstRun) commitProfile();
+  S.tab = 'today'; render(); window.scrollTo(0,0); keepAwake(true);
+}
+function finishWorkout(){
+  const d = S.draft;
+  let planned = 0, done = 0, hit = 0, volume = 0;
+  const prs = [], items = [];
+  for (const it of d.items) {
+    const ex = EXM[it.ex];
+    planned += it.sets.length;
+    const doneSets = it.sets.filter(s => s.done && Number(s.r) > 0).map(s => ({w:Number(s.w)||0, r:Number(s.r)}));
+    let best = 0;
+    for (const s of doneSets) {
+      done++; if (s.r >= it.repLo) hit++;
+      if (ex.unit==='kg') volume += s.w*s.r;
+      best = Math.max(best, e1rm(ex, s));
+    }
+    const prevBest = bestBefore(it.ex, Infinity);
+    if (doneSets.length && prevBest != null && best > prevBest + 1e-9) prs.push(it.ex);
+    if (doneSets.length) items.push({ex:it.ex, repLo:it.repLo, repHi:it.repHi, sets:doneSets});
+  }
+  if (!done) { S.confirm = {kind:'nodone'}; render(); return; }
+  const completion = Math.min(1, done/planned);
+  const score = Math.round(60*completion + 25*(hit/done) + (prs.length ? 15 : completion>=1 ? 8 : 0));
+  const grade = gradeOf(score);
+  const xp = done*10 + prs.length*50 + GRADE_BONUS[grade];
+  const now = new Date();
+  const before = computeStats();
+  const session = {id:uid(), ts:Date.now(), date:ymd(now), hour:now.getHours(), dayKey:d.dayKey, dayName:d.dayName,
+    week:d.week, phase:d.phase, planned, done, hit, volume:Math.round(volume), score, grade, xp, prs, items,
+    min: Math.round((Date.now()-d.startedAt)/60000)};
+  S.logs.push(session);
+  S.draft = null; lsSet(LS_DRAFT, null); stopRest(); keepAwake(false);
+  commitLog(session.date.slice(0,7));
+  const after = computeStats();
+  const newBadges = BADGES.filter(b => b.ok(after) && !b.ok(before));
+  showResult(session, before, after, newBadges);
+  render();
+}
+function bestBefore(exId){
+  let best = null;
+  for (const l of S.logs) for (const it of l.items) if (it.ex===exId) for (const s of it.sets) {
+    const v = e1rm(EXM[exId], s); if (best==null || v > best) best = v;
+  }
+  return best;
+}
+let wakeLock = null;
+async function keepAwake(on){
+  try {
+    if (on && navigator.wakeLock && !wakeLock) wakeLock = await navigator.wakeLock.request('screen');
+    if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; }
+  } catch { wakeLock = null; }
+}
+
+/* rest timer */
+const Rest = {end:0, total:0, iv:0};
+function startRest(sec){
+  Rest.total = sec; Rest.end = Date.now() + sec*1000;
+  $('#rest').hidden = false; clearInterval(Rest.iv); Rest.iv = setInterval(tickRest, 250); tickRest();
+}
+function tickRest(){
+  const left = Math.max(0, Rest.end - Date.now());
+  const s = Math.ceil(left/1000);
+  $('#restT').textContent = `${Math.floor(s/60)}:${pad(s%60)}`;
+  $('#restBar').style.width = (Rest.total ? (left/(Rest.total*1000))*100 : 0) + '%';
+  if (left <= 0) { stopRest(); beep(); }
+}
+function stopRest(){ clearInterval(Rest.iv); $('#rest').hidden = true; }
+let actx = null;
+function beep(){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    [0, .18].forEach(t => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.frequency.value = 880; o.connect(g); g.connect(actx.destination);
+      g.gain.setValueAtTime(.0001, actx.currentTime+t); g.gain.exponentialRampToValueAtTime(.25, actx.currentTime+t+.02);
+      g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime+t+.15);
+      o.start(actx.currentTime+t); o.stop(actx.currentTime+t+.16);
+    });
+    if (navigator.vibrate) navigator.vibrate([120,80,120]);
+  } catch {}
+}
+
+/* ================= AI plan ================= */
+function aiPrompt(p){
+  const allowed = EX.filter(e => EQ_RANK[e.eq] <= EQ_RANK[p.eq] && (p.level!=='beg' || e.d<=2));
+  const wds = [...p.weekdays].sort((a,b)=>a-b);
+  return [
+    'あなたは経験豊富なパーソナルトレーナーです。次の条件で、1週間のジムトレーニングのプランを作ってください。',
+    `目標: ${GOALS[p.goal]}`, `レベル: ${LEVELS[p.level]}`, `1回の時間: ${p.minutes}分`,
+    `トレーニング日: ${wds.map(w=>WD[w]+'曜').join('・')}（週${wds.length}日）`,
+    `重点的に鍛えたい部位: ${p.focus.length ? p.focus.map(f=>MUSCLES[f]).join('・') : '特になし（全身をバランスよく）'}`,
+    `設備: ${EQS[p.eq]}`,
+    '',
+    '使える種目（この id 以外は使わないこと）:',
+    allowed.map(e => `${e.id}: ${e.name} / ${MUSCLES[e.m]} / ${e.k==='c'?'複合':'単関節'} / ${e.unit==='sec'?'秒数で記録':e.unit==='bw'?'自重':'重量'}`).join('\n'),
+    '',
+    'ルール:',
+    `- days はちょうど ${wds.length} 個。曜日の順番どおりに並べる。連続する日で同じ部位を高強度で使わないよう分割を工夫する。`,
+    `- 1日の種目数は ${Math.max(3, (SLOT_COUNT[p.minutes]||6)-1)}〜${SLOT_COUNT[p.minutes]||6} 個。複合種目を先に置く。`,
+    '- 重点部位は週あたりのセット数を他より多くし、その種目に "focus": true を付ける。',
+    '- sets は 2〜5、repLo/repHi は回数（秒数で記録する種目は秒数）、rest は休憩秒数（30〜240）。',
+    '- name は日本語で短く（例: 上半身A、脚・お尻）。',
+    '',
+    '次の JSON だけを返してください（説明文は不要）:',
+    '{"days":[{"name":"上半身A","items":[{"ex":"bench","sets":3,"repLo":6,"repHi":10,"rest":120,"focus":false}]}],"note":"このプランの狙いを日本語2〜3文で"}',
+  ].join('\n');
+}
+function normalizeAiPlan(res, p){
+  const wds = [...p.weekdays].sort((a,b)=>a-b);
+  if (!res || !Array.isArray(res.days) || res.days.length !== wds.length) throw new Error('days');
+  const clamp = (v, lo, hi, dflt) => { v = Math.round(Number(v)); return Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : dflt; };
+  const days = res.days.map((d, di) => {
+    const seen = new Set();
+    const items = (Array.isArray(d.items) ? d.items : []).filter(it => {
+      const ex = EXM[String(it && it.ex)];
+      if (!ex || seen.has(ex.id) || EQ_RANK[ex.eq] > EQ_RANK[p.eq]) return false;
+      seen.add(ex.id); return true;
+    }).slice(0, 9).map(it => {
+      const ex = EXM[String(it.ex)];
+      const base = rxFor(ex, p.goal, p.level, false);
+      const repLo = clamp(it.repLo, 1, 120, base.repLo);
+      return {ex:ex.id, sets:clamp(it.sets,1,6,base.sets), repLo, repHi:Math.max(repLo, clamp(it.repHi,1,120,base.repHi)),
+        rest:clamp(it.rest,20,300,base.rest), focus: !!it.focus || p.focus.includes(ex.m)};
+    });
+    if (items.length < 2) throw new Error('items');
+    return {key:'d'+di, name:String(d.name||`Day ${di+1}`).slice(0,24), wd:wds[di], items, extra:extraNote(p)};
+  });
+  return {createdAt: ymd(weekStart(new Date())), source:'ai', note:String(res.note||'').slice(0,400), days};
+}
+async function runAi(){
+  if (!SAMPLE || S.ai && S.ai.busy) return;
+  const p = validForm(); if (!p) return;
+  const ctl = new AbortController();
+  S.ai = {busy:true, ctl, msg:'Claudeが考えています…（30秒〜1分ほど）'}; render();
+  try {
+    const res = await SAMPLE.json(aiPrompt(p), {signal:ctl.signal, cache:false});
+    const plan = normalizeAiPlan(res, p);
+    S.profile = p; S.plan = plan; commitProfile();
+    S.ai = {busy:false, msg:'Claudeがプランを作成しました。'}; S.setupOpen = false;
+  } catch (e) {
+    const code = e && e.code;
+    if (code==='cancelled') S.ai = null;
+    else if (['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(code)) { SAMPLE = null; S.ai = {busy:false, err:true, msg:'この環境ではClaudeを使えません。「自動で作成」をお使いください。'}; }
+    else if (code==='rate_limited') S.ai = {busy:false, err:true, msg:'利用上限に達しました。しばらくしてから試すか、「自動で作成」をお使いください。'};
+    else S.ai = {busy:false, err:true, msg:'プランをうまく受け取れませんでした。もう一度試すか、「自動で作成」をお使いください。'};
+  }
+  render();
+}
+function validForm(){
+  const f = S.form;
+  if (f.weekdays.length < 2 || f.weekdays.length > 6) { S.formErr = 'トレーニングする曜日を2〜6日選んでください。'; render(); return null; }
+  S.formErr = '';
+  return JSON.parse(JSON.stringify(f));
+}
+
+/* ================= views ================= */
+function plateHtml(cls, label, size, extra=''){ return `<div class="plate ${cls} ${extra}" style="--s:${size}px" aria-hidden="true"><span>${esc(label)}</span></div>`; }
+function render(){
+  document.querySelectorAll('.nav button').forEach(b => b.setAttribute('aria-current', b.dataset.tab===S.tab ? 'page' : 'false'));
+  const st = computeStats();
+  $('#miniRank').innerHTML = `${plateHtml(st.tier.cls, '', 30)}<b class="num">Lv ${st.level}</b>`;
+  const main = $('#main');
+  main.innerHTML = S.tab==='today' ? (S.draft ? viewWorkout() : viewToday(st))
+    : S.tab==='plan' ? viewPlan() : S.tab==='log' ? viewLog(st) : viewRank(st);
+  showSync();
+}
+
+function weekStrip(){
+  const ws = weekStart(new Date()), today = ymd(new Date());
+  const doneDates = new Set(S.logs.map(l => l.date));
+  const planWd = new Set(S.plan.days.map(d => d.wd));
+  return `<div class="week">${WD.map((w,i) => {
+    const d = new Date(ws); d.setDate(ws.getDate()+i); const k = ymd(d);
+    const cls = [planWd.has(i)?'plan':'', doneDates.has(k)?'done':'', k===today?'today':''].join(' ');
+    return `<div class="wd ${cls}">${w}<b>${d.getDate()}</b><i></i></div>`;
+  }).join('')}</div>`;
+}
+function dayList(day, phase, opts={}){
+  return `<div class="ex-list">${day.items.map((raw, j) => {
+    const it = effective(raw, phase), ex = EXM[it.ex];
+    const swap = opts.swap ? `<br><label class="small muted" for="sw-${day.key}-${j}">入れ替え</label>
+      <select id="sw-${day.key}-${j}" data-f="swap" data-day="${day.key}" data-i="${j}">${candidatesForSwap(it.ex, S.profile.eq).map(c =>
+        `<option value="${c.id}"${c.id===it.ex?' selected':''}>${esc(c.name)}</option>`).join('')}</select>` : '';
+    return `<div class="ex"><span class="idx num">${j+1}</span>
+      <div class="nm">${esc(ex.name)}${it.focus?'<span class="focus-dot" title="重点部位"></span>':''}
+        <div class="sub">${MUSCLES[ex.m]} ・ 休憩 ${restText(it.rest)}${swap}</div></div>
+      <span class="rx num">${rxText(it)}</span></div>`;
+  }).join('')}</div>${day.extra ? `<div class="note" style="margin-top:10px">${esc(day.extra)}</div>` : ''}`;
+}
+
+function viewToday(st){
+  const now = new Date(), week = planWeek(S.plan), phase = phaseOf(week);
+  const today = S.plan.days.find(d => d.wd===wdOf(now));
+  const doneToday = S.logs.filter(l => l.date===ymd(now));
+  const thisWk = st.perWeek[weekKey(now)] || 0, goal = S.plan.days.length;
+  const next = S.plan.days.find(d => d.wd > wdOf(now)) || S.plan.days[0];
+  let html = '';
+  if (S.firstRun) html += `<section class="card" style="border-color:var(--accent)">
+      <div class="eyebrow">ようこそ</div>
+      <h2 class="h2" style="margin:4px 0 6px">まずはあなたの条件でプランを作りましょう</h2>
+      <p class="small muted" style="margin:0 0 12px">いま表示しているのは「筋肉を大きく・初心者・週3日・60分・ジム」のお試しプランです。目標・頻度・鍛えたい部位を選ぶと、週ごとのメニューを組み直します。</p>
+      <button class="btn primary" data-act="tab" data-tab="plan">条件を選んでプランを作る</button></section>`;
+  html += `<section class="card"><div class="row"><div><div class="eyebrow">今週 ・ 第${week+1}週 ${PHASES[phase].name}</div>
+      <div class="title num">${thisWk} / ${goal} 回</div></div><div class="sp"></div>
+      ${st.streak ? `<span class="chip acc">${st.streak}週連続達成中</span>` : ''}</div>
+      <div style="margin-top:12px">${weekStrip()}</div>
+      <p class="small muted" style="margin:10px 0 0">${esc(PHASES[phase].tip)}</p></section>`;
+  if (doneToday.length) {
+    const l = doneToday[doneToday.length-1];
+    html += `<section class="card"><div class="row">${plateHtml(GRADE_CLS[l.grade], l.grade, 64)}
+      <div><div class="eyebrow">今日のトレーニング完了</div><div class="h2">${esc(l.dayName)}</div>
+      <div class="small muted num">スコア ${l.score} ・ +${l.xp} XP${l.prs.length?` ・ 自己ベスト ${l.prs.length}種目`:''}</div></div></div></section>`;
+  }
+  if (today) {
+    html += `<section class="card"><div class="eyebrow">今日（${WD[today.wd]}曜）のメニュー</div>
+      <div class="row" style="margin:4px 0 8px"><h2 class="title">${esc(today.name)}</h2></div>
+      ${dayList(today, phase)}
+      <div style="margin-top:14px"><button class="btn primary big" data-act="start" data-day="${today.key}">${doneToday.length?'もう一度やる':'トレーニングを始める'}</button></div></section>`;
+  } else {
+    html += `<section class="card"><div class="eyebrow">今日は休養日</div>
+      <h2 class="h2" style="margin:4px 0 6px">筋肉は休んでいる間に育ちます</h2>
+      <p class="small muted" style="margin:0">次は <b>${WD[next.wd]}曜：${esc(next.name)}</b>。予定を入れ替えて今日やることもできます。</p></section>`;
+  }
+  html += `<section class="card"><div class="eyebrow">ほかの日のメニューで始める</div><div class="stack" style="gap:8px;margin-top:10px">
+    ${S.plan.days.filter(d => d!==today).map(d => `<button class="btn" style="text-align:left;display:flex;gap:10px" data-act="start" data-day="${d.key}">
+      <span class="muted">${WD[d.wd]}</span><span style="flex:1">${esc(d.name)}</span><span class="muted small">${d.items.length}種目</span></button>`).join('')}</div></section>`;
+  return html;
+}
+
+function viewWorkout(){
+  const d = S.draft;
+  const total = d.items.reduce((a,it) => a+it.sets.length, 0), done = d.items.reduce((a,it) => a+it.sets.filter(s=>s.done).length, 0);
+  let html = `<section class="card"><div class="eyebrow">第${d.week+1}週 ${PHASES[d.phase].name} ・ トレーニング中</div>
+    <div class="row" style="margin:2px 0 10px"><h2 class="title">${esc(d.dayName)}</h2><div class="sp"></div><span class="chip num" id="woCount">${done}/${total} セット</span></div>
+    <div class="progress"><i id="woBar" style="width:${total?done/total*100:0}%"></i></div>
+    ${d.extra ? `<p class="small muted" style="margin:10px 0 0">${esc(d.extra)}</p>` : ''}</section>`;
+  d.items.forEach((it, i) => {
+    const ex = EXM[it.ex], kg = ex.unit==='kg';
+    html += `<section class="card wo-ex"><div class="wo-head"><h3 class="h2">${esc(ex.name)}</h3>
+      <span class="chip num">${it.repLo}–${it.repHi}${unitLabel(ex)}</span><span class="chip">休憩 ${restText(it.rest)}</span></div>
+      <div class="hint">${it.last ? `前回 <b class="num">${esc(it.last)}</b> ・ ` : ''}${esc(it.why)}</div>
+      <div class="sets">${it.sets.map((s, j) => `<div class="set ${kg?'':'nokg'} ${s.done?'done':''}">
+        <span class="n">${j+1}</span>
+        ${kg ? `<label class="fld"><input id="w-${i}-${j}" inputmode="decimal" data-f="w" data-i="${i}" data-j="${j}" value="${esc(s.w)}" placeholder="0" aria-label="${j+1}セット目の重量"><em>kg</em></label>` : ''}
+        <label class="fld"><input id="r-${i}-${j}" inputmode="numeric" data-f="r" data-i="${i}" data-j="${j}" value="${esc(s.r)}" placeholder="${esc(s.tr)}" aria-label="${j+1}セット目の${ex.unit==='sec'?'秒数':'回数'}"><em>${unitLabel(ex)}</em></label>
+        <button class="tick ${s.done?'on':''}" data-act="tick" data-i="${i}" data-j="${j}" aria-label="${j+1}セット目を完了" aria-pressed="${s.done}">✓</button>
+      </div>`).join('')}</div>
+      <div class="row" style="margin-top:8px"><button class="btn ghost small" data-act="addset" data-i="${i}">＋ セット追加</button></div></section>`;
+  });
+  const c = S.confirm;
+  html += `<section class="card"><button class="btn primary big" data-act="finish">トレーニングを終了して評価を見る</button>
+    ${c && c.kind==='nodone' ? `<p class="small" style="color:var(--bad);margin:10px 0 0">完了したセットがありません。回数を入れて ✓ を押してください。</p>` : ''}
+    ${c && c.kind==='discard' ? `<div class="confirm"><span class="small">記録せずに終了しますか？</span><button class="btn danger" data-act="discard-yes">破棄する</button><button class="btn" data-act="cancel-confirm">続ける</button></div>`
+      : `<div class="row" style="margin-top:10px"><button class="btn ghost small" data-act="discard">記録せずにやめる</button></div>`}</section>`;
+  return html;
+}
+
+function viewPlan(){
+  const week = planWeek(S.plan), phase = phaseOf(week), f = S.form;
+  const sel = (on) => `aria-pressed="${on}"`;
+  const optRow = (name, map, cur) => `<div class="opts">${Object.entries(map).map(([k,v]) => `<button type="button" class="opt" data-act="form" data-k="${name}" data-v="${k}" ${sel(cur===k)}>${v}</button>`).join('')}</div>`;
+  const ai = S.ai;
+  let html = `<section class="card"><div class="row"><div><div class="eyebrow">第${week+1}週 ・ ${PHASES[phase].name}週</div>
+      <h2 class="title">今週のプラン</h2></div><div class="sp"></div>
+      <span class="chip ${S.plan.source==='ai'?'acc':''}">${S.plan.source==='ai'?'Claudeが作成':'自動作成'}</span></div>
+      <p class="small muted" style="margin:8px 0 0">${GOALS[S.profile.goal]} ・ ${LEVELS[S.profile.level]} ・ 週${S.plan.days.length}日 ・ ${S.profile.minutes}分 ・ ${EQS[S.profile.eq]}${S.profile.focus.length?` ・ 重点：${S.profile.focus.map(m=>MUSCLES[m]).join('・')}`:''}</p>
+      ${S.plan.note ? `<div class="note" style="margin-top:10px">${esc(S.plan.note)}</div>` : ''}
+      <div class="note" style="margin-top:10px"><b>4週間サイクル</b>：${PHASES.map((p,i)=>`${i===phase?'<b>':''}${i+1}週目 ${p.name}${i===phase?'</b>':''}`).join(' → ')}。今週：${esc(PHASES[phase].tip)}</div></section>`;
+
+  html += `<section class="card"><details id="setup" ${S.setupOpen?'open':''}><summary class="sum-row"><div><div class="eyebrow">条件</div><div class="h2">目標・頻度・鍛えたい部位</div></div></summary>
+    <form class="stack" style="margin-top:14px" data-form="setup" onsubmit="return false">
+      <fieldset><legend>目標</legend>${optRow('goal', GOALS, f.goal)}</fieldset>
+      <fieldset><legend>トレーニング経験</legend>${optRow('level', LEVELS, f.level)}</fieldset>
+      <fieldset><legend>トレーニングする曜日（${f.weekdays.length}日・2〜6日）</legend><div class="opts">${WD.map((w,i)=>`<button type="button" class="opt sq" data-act="wd" data-v="${i}" ${sel(f.weekdays.includes(i))}>${w}</button>`).join('')}</div>
+        <div class="opts">${[2,3,4,5,6].map(n=>`<button type="button" class="opt" data-act="freq" data-v="${n}" ${sel(f.weekdays.length===n)}>週${n}日</button>`).join('')}</div></fieldset>
+      <fieldset><legend>1回の時間</legend><div class="opts">${MINUTES.map(m=>`<button type="button" class="opt" data-act="form" data-k="minutes" data-v="${m}" ${sel(f.minutes===m)}>${m}分</button>`).join('')}</div></fieldset>
+      <fieldset><legend>重点的に鍛えたい部位（複数可・なしでもOK）</legend><div class="opts">${Object.entries(MUSCLES).map(([k,v])=>`<button type="button" class="opt" data-act="focus" data-v="${k}" ${sel(f.focus.includes(k))}>${v}</button>`).join('')}</div></fieldset>
+      <fieldset><legend>使える設備</legend>${optRow('eq', EQS, f.eq)}</fieldset>
+      ${S.formErr ? `<p class="small" style="color:var(--bad);margin:0">${esc(S.formErr)}</p>` : ''}
+      <div class="row"><button type="button" class="btn primary" data-act="gen">自動で作成</button>
+        ${SAMPLE ? `<button type="button" class="btn" data-act="ai" ${ai&&ai.busy?'disabled':''}>Claudeに作ってもらう</button>` : ''}
+        ${ai&&ai.busy ? `<button type="button" class="btn ghost" data-act="ai-stop">中止</button>` : ''}</div>
+      ${ai ? `<p class="small" style="margin:0;color:${ai.err?'var(--bad)':'var(--muted)'}">${esc(ai.msg)}</p>` : ''}
+      <p class="small muted" style="margin:0">プランを作り直すと、週のカウントは第1週から始まります。これまでの記録とランクはそのまま残ります。</p>
+    </form></details></section>`;
+
+  for (const day of S.plan.days) {
+    html += `<section class="card"><div class="row"><span class="chip">${WD[day.wd]}曜</span><h3 class="h2" style="flex:1;min-width:0">${esc(day.name)}</h3>
+      <button class="btn small" data-act="start" data-day="${day.key}">始める</button></div>
+      <div style="margin-top:6px">${dayList(day, phase, {swap:true})}</div></section>`;
+  }
+  return html;
+}
+
+const VOL_TARGET = {hyp:[10,20], str:[6,12], cut:[8,14], fit:[6,10]};
+function viewLog(st){
+  const now = new Date(), wk = weekKey(now);
+  const lastWkD = new Date(weekStart(now)); lastWkD.setDate(lastWkD.getDate()-7);
+  const lastWk = ymd(lastWkD);
+  const inWk = k => S.logs.filter(l => weekKey(l.date)===k);
+  const cur = inWk(wk), prev = inWk(lastWk);
+  const vol = a => a.reduce((s,l)=>s+l.volume,0);
+  const avg = cur.length ? Math.round(cur.reduce((s,l)=>s+l.score,0)/cur.length) : null;
+  const dv = vol(prev) ? Math.round((vol(cur)/vol(prev)-1)*100) : null;
+  let html = `<section class="card"><div class="eyebrow">今週のふりかえり</div>
+    <div class="kpis" style="margin-top:10px">
+      <div class="kpi"><b class="num">${cur.length}/${S.plan.days.length}</b><span>実施回数</span></div>
+      <div class="kpi"><b class="num">${avg==null?'—':avg}</b><span>平均スコア${avg==null?'':`（${gradeOf(avg)}）`}</span></div>
+      <div class="kpi"><b class="num">${fmtTon(vol(cur))}</b><span>挙上量${dv==null?'':` ・ 先週比 ${dv>=0?'+':''}${dv}%`}</span></div>
+      <div class="kpi"><b class="num">${cur.reduce((s,l)=>s+l.prs.length,0)}</b><span>自己ベスト更新</span></div>
+    </div></section>`;
+
+  // muscle balance (this week)
+  const [lo, hi] = VOL_TARGET[S.profile.goal];
+  const setsBy = {}; for (const m in MUSCLES) setsBy[m] = 0;
+  cur.forEach(l => l.items.forEach(it => { setsBy[EXM[it.ex].m] += it.sets.length; }));
+  const planned = new Set(S.plan.days.flatMap(d => d.items.map(i => EXM[i.ex].m)));
+  const max = Math.max(hi*1.25, ...Object.values(setsBy));
+  html += `<section class="card"><div class="eyebrow">部位別のセット数（今週）</div>
+    <p class="small muted" style="margin:4px 0 12px">緑の帯が目安（週${lo}〜${hi}セット）。帯に入っていれば、その部位は十分に鍛えられています。</p>
+    <div class="bal">${Object.entries(MUSCLES).filter(([m]) => planned.has(m) || setsBy[m]).map(([m, name]) => {
+      const v = setsBy[m], state = v>=lo && v<=hi ? 'good' : v>hi ? 'warn' : '';
+      return `<div class="bal-row"><span>${name}${S.profile.focus.includes(m)?'<span class="focus-dot"></span>':''}</span>
+        <div class="bal-track"><div class="bal-band" style="left:${lo/max*100}%;width:${(hi-lo)/max*100}%"></div><div class="bal-fill" style="width:${Math.min(100, v/max*100)}%;${state==='good'?'background:var(--good)':state==='warn'?'background:var(--warn)':''}"></div></div>
+        <span class="v num">${v}セット</span></div>`;
+    }).join('')}</div></section>`;
+
+  // 8-week volume chart
+  const weeks = [];
+  for (let i = 7; i >= 0; i--) { const d = new Date(weekStart(now)); d.setDate(d.getDate()-7*i); weeks.push(ymd(d)); }
+  const vols = weeks.map(k => vol(inWk(k)));
+  const vmax = Math.max(1, ...vols);
+  html += `<section class="card"><div class="eyebrow">週ごとの挙上量（直近8週）</div>
+    <div class="chart" style="margin-top:12px">${vols.map((v,i)=>`<div class="c ${i===7?'now':''}"><i style="height:${v/vmax*100}%"></i>${v?`<em>${fmtTon(v)}</em>`:''}</div>`).join('')}</div>
+    <div class="chart-x">${weeks.map(k=>{const d=parseYmd(k);return `<span>${d.getMonth()+1}/${d.getDate()}</span>`;}).join('')}</div>
+    <p class="small muted" style="margin:8px 0 0">挙上量＝重量×回数の合計（自重・秒数の種目は含みません）。</p></section>`;
+
+  // history
+  const logs = S.logs.slice().reverse();
+  html += `<section class="card"><div class="eyebrow">履歴</div>${logs.length ? `<div class="hist" style="margin-top:6px">${logs.slice(0,60).map(l => {
+    const c = S.confirm;
+    return `<details><summary>${plateHtml(GRADE_CLS[l.grade], l.grade, 40)}
+      <div style="min-width:0"><b>${esc(l.dayName)}</b><div class="d">${l.date.replace(/-/g,'/')}（${WD[wdOf(parseYmd(l.date))]}） ・ ${l.done}/${l.planned}セット ・ ${l.min}分</div></div>
+      <div class="num" style="text-align:right"><b>${l.score}</b><div class="d">+${l.xp}XP</div></div></summary>
+      <table>${l.items.map(it => { const ex = EXM[it.ex]; return `<tr><td>${esc(ex.name)}${l.prs.includes(it.ex)?' <span class="chip good">自己ベスト</span>':''}</td><td>${ex.unit==='kg' ? it.sets.map(s=>`${fmtKg(s.w)}×${s.r}`).join(', ') : it.sets.map(s=>s.r).join(', ')+unitLabel(ex)}</td></tr>`; }).join('')}</table>
+      ${c && c.kind==='del' && c.id===l.id ? `<div class="confirm"><span class="small">この記録を削除しますか？（XPも差し引かれます）</span><button class="btn danger" data-act="del-yes" data-id="${l.id}">削除</button><button class="btn" data-act="cancel-confirm">やめる</button></div>`
+        : `<div class="row" style="margin-top:8px"><button class="btn ghost small" data-act="del" data-id="${l.id}">この記録を削除</button></div>`}
+    </details>`; }).join('')}</div>` : `<div class="empty">${plateHtml('t5','',64)}まだ記録がありません。<br>「今日」タブからトレーニングを始めると、ここに評価つきで残ります。</div>`}</section>`;
+
+  // data
+  const c = S.confirm;
+  html += `<section class="card"><details ${c&&['reset','import'].includes(c.kind)||S.dataOpen?'open':''} data-act-toggle="data"><summary class="sum-row"><div><div class="eyebrow">データ</div><div class="h2">バックアップと初期化</div></div></summary>
+    <div class="stack" style="margin-top:12px">
+      <p class="small muted" style="margin:0">記録は${Cloud.db?'あなたのアカウントと':''}このブラウザに保存されます。機種変更などに備えて、コピーしたデータをメモ等に保管できます。</p>
+      <div class="row"><button class="btn" data-act="export">データをコピー</button><span class="small muted" id="expMsg"></span></div>
+      <label class="small" for="importBox">バックアップを貼り付けて復元</label>
+      <textarea id="importBox" placeholder='{"profile":…}'></textarea>
+      <div class="row"><button class="btn" data-act="import">復元する</button>${c&&c.kind==='import'?`<span class="small" style="color:${c.err?'var(--bad)':'var(--good)'}">${esc(c.msg)}</span>`:''}</div>
+      ${c && c.kind==='reset' ? `<div class="confirm"><span class="small">プラン・記録・ランクをすべて消去します。元に戻せません。</span><button class="btn danger" data-act="reset-yes">すべて消去</button><button class="btn" data-act="cancel-confirm">やめる</button></div>`
+        : `<div><button class="btn danger" data-act="reset">すべてのデータを消去</button></div>`}
+    </div></details></section>`;
+  return html;
+}
+
+function viewRank(st){
+  const L = st.level, cur = xpForLevel(L), nxt = xpForLevel(L+1);
+  const nextTier = TIERS.find(t => t.min > L);
+  let html = `<section class="card"><div class="rank-hero">${plateHtml(st.tier.cls, st.tier.kg, 104)}
+    <div style="min-width:0"><div class="eyebrow">${esc(st.tier.name)}</div><div class="title num">Lv ${L}</div>
+      <div class="progress" style="margin:10px 0 6px"><i style="width:${(st.xp-cur)/(nxt-cur)*100}%"></i></div>
+      <div class="small muted num">${st.xp.toLocaleString()} XP ・ 次のレベルまで ${(nxt-st.xp).toLocaleString()} XP</div>
+      ${nextTier ? `<div class="small muted">Lv ${nextTier.min} で${esc(nextTier.name)}（${nextTier.kg}kg）に昇格</div>` : '<div class="small muted">最上位のプレートです</div>'}
+    </div></div></section>`;
+  html += `<section class="card"><div class="kpis">
+    <div class="kpi"><b class="num">${st.sessions}</b><span>トレーニング回数</span></div>
+    <div class="kpi"><b class="num">${st.streak}<small style="font-size:16px">週</small></b><span>週目標の連続達成（最長 ${st.bestStreak}週）</span></div>
+    <div class="kpi"><b class="num">${fmtTon(st.volume)}</b><span>累計挙上量</span></div>
+    <div class="kpi"><b class="num">${st.prs}</b><span>自己ベスト更新</span></div></div></section>`;
+  html += `<section class="card"><div class="eyebrow">評価の内訳</div><div class="grades" style="margin-top:12px">${['S','A','B','C','D'].map(g =>
+    `<div>${plateHtml(GRADE_CLS[g], g, 46)}<span class="num">${st.grades[g]}回</span></div>`).join('')}</div></section>`;
+  const got = BADGES.filter(b => b.ok(st)).length;
+  html += `<section class="card"><div class="row"><div class="eyebrow">バッジ</div><div class="sp"></div><span class="small muted num">${got} / ${BADGES.length}</span></div>
+    <div class="badges" style="margin-top:12px">${BADGES.map(b => { const ok = b.ok(st), t = TIERS.find(x=>x.kg===b.kg);
+      return `<div class="badge ${ok?'':'locked'}">${plateHtml(t.cls, ok?b.kg:'', 38)}<div style="min-width:0"><b>${esc(b.name)}</b><span>${esc(b.how)}</span></div></div>`; }).join('')}</div></section>`;
+  html += `<section class="card"><div class="eyebrow">評価のしくみ</div>
+    <p class="small muted" style="margin:6px 0 10px">トレーニングを終えると、100点満点のスコアとS〜Dの評価がつきます。評価の色は競技用プレートと同じです（S＝25kg赤、A＝20kg青、B＝15kg黄、C＝10kg緑、D＝5kg白）。</p>
+    <table class="howto">
+      <tr><td>予定セットの完了率</td><td>60点</td></tr>
+      <tr><td>目標回数（下限）に届いたセットの割合</td><td>25点</td></tr>
+      <tr><td>自己ベスト更新（なければ全セット完了で8点）</td><td>15点</td></tr>
+      <tr><td>評価 S 95〜 / A 85〜 / B 70〜 / C 50〜 / D</td><td></td></tr>
+    </table>
+    <table class="howto" style="margin-top:12px">
+      <tr><td>完了した1セット</td><td>+10 XP</td></tr>
+      <tr><td>自己ベスト更新（推定1RM・回数）</td><td>+50 XP</td></tr>
+      <tr><td>評価ボーナス S/A/B/C/D</td><td>+100/70/50/30/10</td></tr>
+      <tr><td>週の予定日数をすべて実施</td><td>+200 XP</td></tr>
+    </table></section>`;
+  return html;
+}
+
+function showResult(l, before, after, newBadges){
+  const ov = $('#overlay');
+  const lvUp = after.level > before.level, tierUp = after.tier.kg > before.tier.kg;
+  const weekGain = after.weekBonus - before.weekBonus;
+  const msg = {S:'完璧です。この調子で積み上げましょう。',A:'素晴らしい内容でした。',B:'しっかりやり切りました。',C:'まずは続けたことが大事です。',D:'今日は軽めの日。次回取り返しましょう。'}[l.grade];
+  ov.innerHTML = `<div class="card result" role="dialog" aria-modal="true" aria-labelledby="resT">
+    <div class="eyebrow">${esc(l.dayName)} ・ ${l.min}分</div>
+    ${plateHtml(GRADE_CLS[l.grade], l.grade, 132, 'stamp')}
+    <h2 class="title num" id="resT">スコア ${l.score}</h2>
+    <p class="small muted" style="margin:4px 0 0">${msg}</p>
+    <div class="xp-lines num">
+      <div><span>完了セット ${l.done}/${l.planned}</span><b>+${l.done*10}</b></div>
+      ${l.prs.length ? `<div><span>自己ベスト：${l.prs.map(id=>esc(EXM[id].name)).join('、')}</span><b>+${l.prs.length*50}</b></div>` : ''}
+      <div><span>評価ボーナス（${l.grade}）</span><b>+${GRADE_BONUS[l.grade]}</b></div>
+      ${weekGain ? `<div><span>今週の予定をすべて達成</span><b>+${weekGain}</b></div>` : ''}
+      <div><span><b>合計</b></span><b>+${l.xp + weekGain} XP</b></div>
+    </div>
+    ${lvUp ? `<div class="note" style="margin-bottom:10px"><b>レベルアップ！ Lv ${after.level}</b>${tierUp ? ` ・ ${esc(after.tier.name)}に昇格` : ''}</div>` : ''}
+    ${newBadges.length ? `<div class="note" style="margin-bottom:10px">新しいバッジ：<b>${newBadges.map(b=>esc(b.name)).join('、')}</b></div>` : ''}
+    <button class="btn primary big" data-act="close-result">閉じる</button></div>`;
+  ov.hidden = false;
+}
+
+/* ================= events ================= */
+const ACT = {
+  tab(t){ S.tab = t.dataset.tab; S.confirm = null; render(); window.scrollTo(0,0); },
+  start(t){ startWorkout(t.dataset.day); },
+  tick(t){
+    const it = S.draft.items[+t.dataset.i], s = it.sets[+t.dataset.j];
+    if (!s.done && !(Number(s.r) > 0)) s.r = s.tr;   // empty field: accept the target
+    s.done = !s.done; lsSet(LS_DRAFT, S.draft); S.confirm = null;
+    render();
+    if (s.done) startRest(it.rest);
+  },
+  addset(t){ const it = S.draft.items[+t.dataset.i]; const last = it.sets[it.sets.length-1]; it.sets.push({w:last?last.w:'', r:'', done:false, tr:last?last.tr:it.repHi}); lsSet(LS_DRAFT, S.draft); render(); },
+  finish(){ finishWorkout(); },
+  discard(){ S.confirm = {kind:'discard'}; render(); },
+  'discard-yes'(){ S.draft = null; lsSet(LS_DRAFT, null); S.confirm = null; stopRest(); keepAwake(false); render(); },
+  'cancel-confirm'(){ S.confirm = null; render(); },
+  'rest-add'(){ Rest.end += 15000; Rest.total += 15; tickRest(); },
+  'rest-skip'(){ stopRest(); },
+  'close-result'(){ $('#overlay').hidden = true; $('#overlay').innerHTML = ''; },
+  form(t){ const k = t.dataset.k; S.form[k] = k==='minutes' ? Number(t.dataset.v) : t.dataset.v; S.setupOpen = true; render(); },
+  wd(t){ const v = +t.dataset.v, w = S.form.weekdays; S.form.weekdays = w.includes(v) ? w.filter(x=>x!==v) : w.concat(v).sort((a,b)=>a-b); S.setupOpen = true; render(); },
+  freq(t){ S.form.weekdays = DEFAULT_WD[+t.dataset.v].slice(); S.setupOpen = true; render(); },
+  focus(t){ const v = t.dataset.v, f = S.form.focus; S.form.focus = f.includes(v) ? f.filter(x=>x!==v) : f.concat(v); S.setupOpen = true; render(); },
+  gen(){ const p = validForm(); if (!p) return; S.profile = p; S.plan = generatePlan(p); S.ai = null; S.setupOpen = false; commitProfile(); render(); window.scrollTo(0,0); },
+  ai(){ runAi(); },
+  'ai-stop'(){ if (S.ai && S.ai.ctl) S.ai.ctl.abort(); },
+  del(t){ S.confirm = {kind:'del', id:t.dataset.id}; render(); },
+  'del-yes'(t){ const l = S.logs.find(x => x.id===t.dataset.id); if (!l) return; S.logs = S.logs.filter(x => x!==l); S.confirm = null; commitLog(l.date.slice(0,7)); render(); },
+  async export(){
+    const txt = JSON.stringify({profile:S.profile, plan:S.plan, logs:S.logs, updatedAt:S.updatedAt});
+    const msg = $('#expMsg');
+    try { await navigator.clipboard.writeText(txt); msg.textContent = 'コピーしました。メモなどに貼り付けて保管してください。'; }
+    catch { const box = $('#importBox'); box.value = txt; box.select(); msg.textContent = '下の欄に表示しました。全選択してコピーしてください。'; }
+  },
+  import(){
+    S.dataOpen = true;
+    try {
+      const d = JSON.parse($('#importBox').value);
+      if (!d || !d.plan || !Array.isArray(d.plan.days) || !Array.isArray(d.logs)) throw 0;
+      S.profile = d.profile; S.plan = d.plan; S.logs = d.logs.sort((a,b)=>a.ts-b.ts); S.form = JSON.parse(JSON.stringify(S.profile));
+      commitProfile(); for (const ym of new Set(S.logs.map(l=>l.date.slice(0,7)))) Cloud.saveMonth(ym);
+      S.confirm = {kind:'import', msg:`復元しました（記録 ${S.logs.length}件）。`};
+    } catch { S.confirm = {kind:'import', err:true, msg:'読み込めませんでした。「データをコピー」で取り出した文字列をそのまま貼り付けてください。'}; }
+    render();
+  },
+  reset(){ S.confirm = {kind:'reset'}; render(); },
+  'reset-yes'(){
+    const months = new Set(S.logs.map(l=>l.date.slice(0,7)));
+    S.logs = []; months.forEach(ym => Cloud.remove('log-'+ym)); Cloud.remove('profile');
+    lsSet(LS_KEY, null); lsSet(LS_DRAFT, null);
+    S.profile = {...DEFAULT_PROFILE}; S.plan = generatePlan(S.profile); S.form = JSON.parse(JSON.stringify(S.profile));
+    S.firstRun = true; S.setupOpen = true; S.draft = null; S.confirm = null; S.updatedAt = 0; S.tab = 'today'; render();
+  },
+};
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if (!t) return;
+  const fn = ACT[t.dataset.act]; if (fn) { e.preventDefault(); fn(t, e); }
+});
+document.addEventListener('input', e => {
+  const t = e.target; if (!S.draft || !t.dataset || !['w','r'].includes(t.dataset.f)) return;
+  const s = S.draft.items[+t.dataset.i].sets[+t.dataset.j];
+  s[t.dataset.f] = t.value.replace(/[^\d.]/g,'');
+  lsSet(LS_DRAFT, S.draft);
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.f==='swap') {
+    const day = S.plan.days.find(d => d.key===t.dataset.day); const it = day && day.items[+t.dataset.i]; if (!it) return;
+    const ex = EXM[t.value]; const rx = rxFor(ex, S.profile.goal, S.profile.level, it.focus);
+    day.items[+t.dataset.i] = {...it, ex:ex.id, repLo:rx.repLo, repHi:rx.repHi, rest:rx.rest};
+    commitProfile(); render();
+  }
+});
+document.addEventListener('toggle', e => { if (e.target.id==='setup') S.setupOpen = e.target.open; }, true);
+document.addEventListener('keydown', e => { if (e.key==='Escape' && !$('#overlay').hidden) ACT['close-result'](); });
+
+/* ================= boot ================= */
+loadLocal();
+if (S.draft && !S.draft.items) S.draft = null;
+render();
+Cloud.init();
+initSample();
+})();
+</script>
+<!-- PAGE-END -->
+</body>
+</html>

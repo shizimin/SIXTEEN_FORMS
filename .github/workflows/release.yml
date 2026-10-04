@@ -20,6 +20,7 @@ jobs:
         run: |
           mkdir -p dist/site
           cp index.html README.md dist/site/
+          cp -r plates dist/site/
           NAME="sixteen-forms-${GITHUB_REF_NAME//\//-}"
           (cd dist/site && zip -r "../${NAME}.zip" .)
           echo "ZIP=dist/${NAME}.zip" >> "$GITHUB_ENV"
